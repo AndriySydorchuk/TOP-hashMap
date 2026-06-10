@@ -114,6 +114,29 @@ describe("Testing HashMap behaviour", () => {
       expect(() => hashMap.set(-5, "negative key value")).toThrow(TypeError);
       expect(() => hashMap.set([1, 2], "array key value")).toThrow(TypeError);
     });
+
+    test("make buckets grow in size when the next new entry overflows load factor", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark")
+        .set("Jorah", "Mormont")
+        .set("Samwell", "Tarly")
+        .set("Davos", "Seaworth")
+        .set("Bran", "Stark")
+        .set("Sandor", "Clegane")
+        .set("Tormund", "Giantsbane")
+        .set("Margaery", "Tyrell")
+        .set("Joffrey", "Baratheon")
+        .set("Roose", "Bolton");
+
+      const sizeBeforeGrowth = hashMap.size();
+
+      hashMap.set("Ramsey", "Snow");
+
+      expect(hashMap.size()).toBeGreaterThan(sizeBeforeGrowth);
+    });
   });
 
   describe("has method", () => {

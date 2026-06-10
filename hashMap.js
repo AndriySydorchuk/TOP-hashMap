@@ -23,6 +23,20 @@ export class HashMap {
     return null;
   }
 
+  #resize() {
+    this.#capacity *= 2;
+
+    const bucketsCopy = structuredClone(this.#buckets);
+
+    this.#buckets = Array.from({ length: this.#capacity }, () => []);
+
+    for (const bucket of bucketsCopy) {
+      for (const entry of bucket) {
+        this.set(entry.key, entry.value);
+      }
+    }
+  }
+
   hash(key) {
     if (typeof key !== "string")
       throw new TypeError("Invalid key type. Use string instead");
@@ -56,8 +70,12 @@ export class HashMap {
 
     if (entry) {
       entry.value = value;
-    } else {
-      bucket.push({ key, value });
+    }
+
+    bucket.push({ key, value });
+
+    if (this.length() > this.#capacity * this.#loadFactor) {
+      this.#resize();
     }
 
     return this;
@@ -112,6 +130,7 @@ export class HashMap {
     for (const bucket of this.#buckets) {
       bucket.splice(0);
     }
+    this.#capacity = 16;
   }
 
   keys() {
@@ -150,5 +169,9 @@ export class HashMap {
     }
 
     return entries;
+  }
+
+  size() {
+    return this.#buckets.length;
   }
 }
