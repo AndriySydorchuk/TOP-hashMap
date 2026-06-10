@@ -9,32 +9,50 @@ export class HashMap {
     this.#buckets = Array.from({ length: this.#capacity }, () => []);
   }
 
-  #getBucket(index) {
-    return this.#buckets[index];
+  #getBucket(key) {
+    const hashCode = this.hash(key);
+
+    return this.#buckets[hashCode];
   }
 
   #getEntry(key, bucket) {
     for (const entry of bucket) {
-      if (entry.key === key) {
-        return entry;
-      }
+      if (entry.key === key) return entry;
     }
 
     return null;
   }
 
+  #isLoaded() {
+    return this.length() > this.#capacity * this.#loadFactor;
+  }
+
   #resize() {
+    //store old key value pairs
+    const entries = this.entries();
+
+    //make new array
     this.#capacity *= 2;
-
-    const bucketsCopy = structuredClone(this.#buckets);
-
     this.#buckets = Array.from({ length: this.#capacity }, () => []);
 
-    for (const bucket of bucketsCopy) {
+    //reset old key value pairs into new array
+    entries.forEach((entry) => this.set(entry[0], entry[1]));
+  }
+
+  #collectProperty(property) {
+    const collection = [];
+
+    for (const bucket of this.#buckets) {
       for (const entry of bucket) {
-        this.set(entry.key, entry.value);
+        collection.push(entry[property]);
       }
     }
+
+    return collection;
+  }
+
+  get capacity() {
+    return this.#capacity;
   }
 
   hash(key) {
@@ -52,55 +70,39 @@ export class HashMap {
   }
 
   get(key) {
-    const hashCode = this.hash(key);
-    const bucket = this.#getBucket(hashCode);
+    const bucket = this.#getBucket(key);
     const entry = this.#getEntry(key, bucket);
 
-    if (entry) {
-      return entry.value;
-    }
+    if (entry) return entry.value;
 
     return null;
   }
 
   set(key, value) {
-    const hashCode = this.hash(key);
-    const bucket = this.#getBucket(hashCode);
+    const bucket = this.#getBucket(key);
     const entry = this.#getEntry(key, bucket);
 
-    if (entry) {
-      entry.value = value;
-    }
+    if (entry) entry.value = value;
 
     bucket.push({ key, value });
 
-    if (this.length() > this.#capacity * this.#loadFactor) {
-      this.#resize();
-    }
+    if (this.#isLoaded()) this.#resize();
 
     return this;
   }
 
   has(key) {
-    const hashCode = this.hash(key);
-    const bucket = this.#getBucket(hashCode);
+    const bucket = this.#getBucket(key);
     const entry = this.#getEntry(key, bucket);
 
-    if (entry) {
-      return true;
-    }
-
-    return false;
+    return entry ? true : false;
   }
 
   remove(key) {
-    const hashCode = this.hash(key);
-    const bucket = this.#getBucket(hashCode);
+    const bucket = this.#getBucket(key);
     const entry = this.#getEntry(key, bucket);
 
-    if (!entry) {
-      return false;
-    }
+    if (!entry) return false;
 
     let index;
     for (index = 0; index < bucket.length; index++) {
@@ -130,31 +132,16 @@ export class HashMap {
     for (const bucket of this.#buckets) {
       bucket.splice(0);
     }
+
     this.#capacity = 16;
   }
 
   keys() {
-    const keys = [];
-
-    for (const bucket of this.#buckets) {
-      for (const entry of bucket) {
-        keys.push(entry.key);
-      }
-    }
-
-    return keys;
+    return this.#collectProperty("key");
   }
 
   values() {
-    const values = [];
-
-    for (const bucket of this.#buckets) {
-      for (const entry of bucket) {
-        values.push(entry.value);
-      }
-    }
-
-    return values;
+    return this.#collectProperty("value");
   }
 
   entries() {
@@ -169,9 +156,5 @@ export class HashMap {
     }
 
     return entries;
-  }
-
-  get capacity() {
-    return this.#capacity;
   }
 }
