@@ -10,27 +10,25 @@ export class HashMap {
   }
 
   hash(key) {
-    const normalizedKey = this.#normalize(key);
+    if (typeof key !== "string")
+      throw new TypeError("Invalid key type. Use string instead");
 
     let hashCode = 0;
 
     const primeNumber = 31;
-    for (let i = 0; i < normalizedKey.length; i++) {
-      hashCode =
-        (primeNumber * hashCode + normalizedKey.charCodeAt(i)) % this.#capacity;
+    for (let i = 0; i < key.length; i++) {
+      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.#capacity;
     }
 
     return hashCode;
   }
 
   get(key) {
-    const normalizedKey = this.#normalize(key);
-
-    const hashCode = this.hash(normalizedKey);
+    const hashCode = this.hash(key);
     const bucket = this.#buckets[hashCode];
 
     for (const entry of bucket) {
-      if (entry.key === normalizedKey) {
+      if (entry.key === key) {
         return entry.value;
       }
     }
@@ -39,23 +37,15 @@ export class HashMap {
   }
 
   set(key, value) {
-    const nomralizedKey = this.#normalize(key);
-    const hashCode = this.hash(nomralizedKey);
+    const hashCode = this.hash(key);
 
     const bucket = this.#buckets[hashCode];
     for (const entry of bucket) {
-      if (entry.key === nomralizedKey) {
+      if (entry.key === key) {
         entry.value = value;
       }
     }
 
-    bucket.push({
-      key: nomralizedKey,
-      value,
-    });
-  }
-
-  #normalize(key) {
-    return typeof key === "object" ? JSON.stringify(key) : String(key);
+    bucket.push({ key, value });
   }
 }

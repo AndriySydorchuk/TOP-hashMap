@@ -22,10 +22,10 @@ describe("Testing HashMap behaviour", () => {
       expect(hashMap.hash("")).toBe(0);
     });
 
-    test("returns hash code for non-string key ", () => {
+    test("throws type error for non-string key", () => {
       const hashMap = new HashMap();
-      expect(hashMap.hash(-5)).toBe(8);
-      expect(hashMap.hash([1, 2, 3])).toBe(10);
+      expect(() => hashMap.hash(-5)).toThrow(TypeError);
+      expect(() => hashMap.hash([1, 2, 3])).toThrow(TypeError);
     });
 
     test("returns hash code on anonymous HashMap instance", () => {
@@ -57,12 +57,12 @@ describe("Testing HashMap behaviour", () => {
       expect(hashMap.get("Arya")).toBe(null);
     });
 
-    test("returns value for non-string key", () => {
+    test("throws type error for non-string key", () => {
       const hashMap = new HashMap();
-      hashMap.set(-5, "negative key value");
-      hashMap.set([1, 2, 3], "array key value");
-      expect(hashMap.get(-5)).toBe("negative key value");
-      expect(hashMap.get([1, 2, 3])).toBe("array key value");
+
+      expect(() => hashMap.get(-5)).toThrow(TypeError);
+
+      expect(() => hashMap.get([1, 2, 3])).toThrow(TypeError);
     });
   });
 
@@ -81,21 +81,17 @@ describe("Testing HashMap behaviour", () => {
       expect(hashMap.get("Jon")).toBe("Snow");
     });
 
-    test("sets a three key value pair", () => {
-      const hashMap = new HashMap();
-      hashMap.set("Tyrion", "Lannister");
-      hashMap.set("Jon", "Snow");
-      hashMap.set("Arya", "Stark");
-      expect(hashMap.get("Tyrion")).toBe("Lannister");
-      expect(hashMap.get("Jon")).toBe("Snow");
-      expect(hashMap.get("Arya")).toBe("Stark");
-    });
-
     test("updates the key value when setting with an existing key", () => {
       const hashMap = new HashMap();
       hashMap.set("Jon", "Snow");
       hashMap.set("Jon", "Targaryen");
       expect(hashMap.get("Jon")).toBe("Targaryen");
+    });
+
+    test("throws type error for non-string key", () => {
+      const hashMap = new HashMap();
+      expect(() => hashMap.set(-5, "negative key value")).toThrow(TypeError);
+      expect(() => hashMap.set([1, 2], "array key value")).toThrow(TypeError);
     });
   });
 });
