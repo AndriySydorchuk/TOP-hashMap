@@ -152,9 +152,7 @@ export class HashMap {
 
     for (const bucket of this.#buckets) {
       for (const entry of bucket) {
-        if (entry) {
-          entries.push(Object.values(entry).flat());
-        }
+        entries.push([entry.key, entry.value]);
       }
     }
 
