@@ -38,6 +38,23 @@ export class HashMap {
     return null;
   }
 
+  set(key, value) {
+    const nomralizedKey = this.#normalize(key);
+    const hashCode = this.hash(nomralizedKey);
+
+    const bucket = this.#buckets[hashCode];
+    for (const entry of bucket) {
+      if (entry.key === nomralizedKey) {
+        entry.value = value;
+      }
+    }
+
+    bucket.push({
+      key: nomralizedKey,
+      value,
+    });
+  }
+
   #normalize(key) {
     return typeof key === "object" ? JSON.stringify(key) : String(key);
   }

@@ -36,16 +36,19 @@ describe("Testing HashMap behaviour", () => {
   describe("get method", () => {
     test("returns value Lannister for key Tyrion", () => {
       const hashMap = new HashMap();
+      hashMap.set("Tyrion", "Lannister");
       expect(hashMap.get("Tyrion")).toBe("Lannister");
     });
 
     test("returns value Snow for key Jon", () => {
       const hashMap = new HashMap();
+      hashMap.set("Jon", "Snow");
       expect(hashMap.get("Jon")).toBe("Snow");
     });
 
     test("returns value Targaryen for key Daenerys", () => {
       const hashMap = new HashMap();
+      hashMap.set("Daenerys", "Targaryen");
       expect(hashMap.get("Daenerys")).toBe("Targaryen");
     });
 
@@ -56,8 +59,43 @@ describe("Testing HashMap behaviour", () => {
 
     test("returns value for non-string key", () => {
       const hashMap = new HashMap();
+      hashMap.set(-5, "negative key value");
+      hashMap.set([1, 2, 3], "array key value");
       expect(hashMap.get(-5)).toBe("negative key value");
       expect(hashMap.get([1, 2, 3])).toBe("array key value");
+    });
+  });
+
+  describe("set method", () => {
+    test("sets a key value pair", () => {
+      const hashMap = new HashMap();
+      hashMap.set("Tyrion", "Lannister");
+      expect(hashMap.get("Tyrion")).toBe("Lannister");
+    });
+
+    test("sets a two key value pair", () => {
+      const hashMap = new HashMap();
+      hashMap.set("Tyrion", "Lannister");
+      hashMap.set("Jon", "Snow");
+      expect(hashMap.get("Tyrion")).toBe("Lannister");
+      expect(hashMap.get("Jon")).toBe("Snow");
+    });
+
+    test("sets a three key value pair", () => {
+      const hashMap = new HashMap();
+      hashMap.set("Tyrion", "Lannister");
+      hashMap.set("Jon", "Snow");
+      hashMap.set("Arya", "Stark");
+      expect(hashMap.get("Tyrion")).toBe("Lannister");
+      expect(hashMap.get("Jon")).toBe("Snow");
+      expect(hashMap.get("Arya")).toBe("Stark");
+    });
+
+    test("updates the key value when setting with an existing key", () => {
+      const hashMap = new HashMap();
+      hashMap.set("Jon", "Snow");
+      hashMap.set("Jon", "Targaryen");
+      expect(hashMap.get("Jon")).toBe("Targaryen");
     });
   });
 });
