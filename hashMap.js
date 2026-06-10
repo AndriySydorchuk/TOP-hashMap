@@ -10,8 +10,7 @@ export class HashMap {
   }
 
   hash(key) {
-    const normalizedKey =
-      typeof key === "object" ? JSON.stringify(key) : String(key);
+    const normalizedKey = this.#normalize(key);
 
     let hashCode = 0;
 
@@ -25,8 +24,7 @@ export class HashMap {
   }
 
   get(key) {
-    const normalizedKey =
-      typeof key === "object" ? JSON.stringify(key) : String(key);
+    const normalizedKey = this.#normalize(key);
 
     const hashCode = this.hash(normalizedKey);
     const bucket = this.#buckets[hashCode];
@@ -38,5 +36,9 @@ export class HashMap {
     }
 
     return null;
+  }
+
+  #normalize(key) {
+    return typeof key === "object" ? JSON.stringify(key) : String(key);
   }
 }
