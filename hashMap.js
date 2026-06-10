@@ -137,4 +137,18 @@ export class HashMap {
 
     return values;
   }
+
+  entries() {
+    const entries = [];
+
+    for (const bucket of this.#buckets) {
+      for (const entry of bucket) {
+        if (entry) {
+          entries.push(Object.values(entry).flat());
+        }
+      }
+    }
+
+    return entries;
+  }
 }

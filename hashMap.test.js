@@ -377,7 +377,7 @@ describe("Testing HashMap behaviour", () => {
         .set("Samwell", "Tarly");
 
       expect(Array.isArray(hashMap.values())).toBe(true);
-      expect(hashMap.keys().length).toBe(5);
+      expect(hashMap.values().length).toBe(5);
       expect(hashMap.values().find((val) => val === "Snow")).toBe("Snow");
     });
 
@@ -414,6 +414,61 @@ describe("Testing HashMap behaviour", () => {
     test("returns an empty array for an empty hash map", () => {
       const hashMap = new HashMap();
       expect(hashMap.values().length).toBe(0);
+    });
+  });
+
+  describe("entries method", () => {
+    test("returns an array containing all the key value pairs inside the hash map", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark")
+        .set("Jorah", "Mormont")
+        .set("Samwell", "Tarly");
+
+      expect(Array.isArray(hashMap.entries())).toBe(true);
+      expect(hashMap.entries().length).toBe(5);
+      expect(
+        hashMap
+          .entries()
+          .find((pair) => JSON.stringify(pair) === '["Jon","Snow"]'),
+      ).toEqual(["Jon", "Snow"]);
+    });
+
+    test("returns an array containing all the key value pairs inside the anonymous hash map", () => {
+      expect(
+        Array.isArray(
+          new HashMap()
+            .set("Jon", "Snow")
+            .set("Tyrion", "Lannister")
+            .set("Arya", "Stark")
+            .set("Jorah", "Mormont")
+            .entries(),
+        ),
+      ).toBe(true);
+      expect(
+        new HashMap()
+          .set("Jon", "Snow")
+          .set("Tyrion", "Lannister")
+          .set("Arya", "Stark")
+          .set("Jorah", "Mormont")
+          .entries().length,
+      ).toBe(4);
+      expect(
+        new HashMap()
+          .set("Jon", "Snow")
+          .set("Tyrion", "Lannister")
+          .set("Arya", "Stark")
+          .set("Jorah", "Mormont")
+          .entries()
+          .find((pair) => JSON.stringify(pair) === '["Arya","Stark"]'),
+      ).toEqual(["Arya", "Stark"]);
+    });
+
+    test("returns an empty array for an empty hash map", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.entries().length).toBe(0);
     });
   });
 });
