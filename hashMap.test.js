@@ -32,4 +32,26 @@ describe("Testing HashMap behaviour", () => {
       expect(new HashMap().hash("Cersei")).toBe(7);
     });
   });
+
+  describe("get method", () => {
+    test("returns value Lannister for key Tyrion", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.get("Tyrion")).toBe("Lannister");
+    });
+
+    test("returns value Snow for key Jon", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.get("Jon")).toBe("Snow");
+    });
+
+    test("returns value Targaryen for key Daenerys", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.get("Daenerys")).toBe("Targaryen");
+    });
+
+    test("returns null if a key is not found", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.get("Arya")).toBe(null);
+    });
+  });
 });
