@@ -324,4 +324,45 @@ describe("Testing HashMap behaviour", () => {
       expect(() => hashMap.clear()).not.toThrow(Error);
     });
   });
+
+  describe("keys method", () => {
+    test("returns an array containing all the keys inside the hash map", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark")
+        .set("Jorah", "Mormont")
+        .set("Samwell", "Tarly");
+
+      expect(Array.isArray(hashMap.keys())).toBe(true);
+      expect(hashMap.keys().length).toBe(5);
+    });
+
+    test("returns an array containing all the keys inside the anonymous hash map", () => {
+      expect(
+        Array.isArray(
+          new HashMap()
+            .set("Jon", "Snow")
+            .set("Tyrion", "Lannister")
+            .set("Arya", "Stark")
+            .set("Jorah", "Mormont")
+            .keys(),
+        ),
+      ).toBe(true);
+      expect(
+        new HashMap()
+          .set("Jon", "Snow")
+          .set("Tyrion", "Lannister")
+          .set("Arya", "Stark")
+          .set("Jorah", "Mormont")
+          .keys().length,
+      ).toBe(4);
+    });
+
+    test("returns an empty array for an empty hash map", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.keys().length).toBe(0);
+    });
+  });
 });

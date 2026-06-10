@@ -113,4 +113,16 @@ export class HashMap {
       bucket.splice(0);
     }
   }
+
+  keys() {
+    const keys = [];
+
+    for (const bucket of this.#buckets) {
+      for (const entry of bucket) {
+        keys.push(entry.key);
+      }
+    }
+
+    return keys;
+  }
 }
