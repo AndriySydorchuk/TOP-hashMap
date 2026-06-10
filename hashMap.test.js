@@ -131,11 +131,11 @@ describe("Testing HashMap behaviour", () => {
         .set("Joffrey", "Baratheon")
         .set("Roose", "Bolton");
 
-      const sizeBeforeGrowth = hashMap.size();
+      const capacityBeforeGrowth = hashMap.capacity;
 
       hashMap.set("Ramsey", "Snow");
 
-      expect(hashMap.size()).toBeGreaterThan(sizeBeforeGrowth);
+      expect(hashMap.capacity).toBeGreaterThan(capacityBeforeGrowth);
     });
   });
 

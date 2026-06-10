@@ -171,7 +171,7 @@ export class HashMap {
     return entries;
   }
 
-  size() {
-    return this.#buckets.length;
+  get capacity() {
+    return this.#capacity;
   }
 }
