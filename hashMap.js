@@ -62,4 +62,16 @@ export class HashMap {
 
     return this;
   }
+
+  has(key) {
+    const hashCode = this.hash(key);
+    const bucket = this.#getBucket(hashCode);
+    const entry = this.#getEntry(key, bucket);
+
+    if (entry) {
+      return true;
+    }
+
+    return false;
+  }
 }

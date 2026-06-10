@@ -115,4 +115,43 @@ describe("Testing HashMap behaviour", () => {
       expect(() => hashMap.set([1, 2], "array key value")).toThrow(TypeError);
     });
   });
+
+  describe("has method", () => {
+    test("returns true for a key that's in the hash map", () => {
+      const hashMap = new HashMap();
+      hashMap.set("Jon", "Snow");
+      expect(hashMap.has("Jon")).toBe(true);
+    });
+
+    test("returns true for a key that's in the hash map containing multiple nodes", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+      expect(hashMap.has("Arya")).toBe(true);
+    });
+
+    test("retuns true for a key that's in the anonymous hash map", () => {
+      expect(new HashMap().set("Jon", "Snow").has("Jon")).toBe(true);
+    });
+
+    test("returns false for a key that's not in the hash map", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.has("Jon")).toBe(false);
+    });
+
+    test("retuns false for a key that's not in the hash map containing multiple nodes", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+      expect(hashMap.has("Sansa")).toBe(false);
+    });
+
+    test("retuns false for a key that's not in the anonymous hash map", () => {
+      expect(new HashMap().set("Jon", "Snow").has("Tyrion")).toBe(false);
+    });
+  });
 });
