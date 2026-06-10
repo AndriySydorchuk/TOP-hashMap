@@ -278,4 +278,50 @@ describe("Testing HashMap behaviour", () => {
       expect(new HashMap().length()).toBe(0);
     });
   });
+
+  describe("clear method", () => {
+    test("removes all entries in the hash map containing 3 entries", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+
+      hashMap.clear();
+
+      expect(hashMap.length()).toBe(0);
+    });
+
+    test("removes all entries in the hash map containing 5 entries", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark")
+        .set("Jorah", "Mormont")
+        .set("Samwell", "Tarly");
+
+      hashMap.clear();
+
+      expect(hashMap.length()).toBe(0);
+    });
+
+    test("removes all entries in the hash map containing 3 entries, including when one bucket contains two entries", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Rama", "RamaValue")
+        .set("Sita", "SitaValue");
+
+      hashMap.clear();
+
+      expect(hashMap.length()).toBe(0);
+    });
+
+    test("don't fail for an empty hash map", () => {
+      const hashMap = new HashMap();
+      expect(() => hashMap.clear()).not.toThrow(Error);
+    });
+  });
 });

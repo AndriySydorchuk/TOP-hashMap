@@ -107,4 +107,10 @@ export class HashMap {
 
     return length;
   }
+
+  clear() {
+    for (const bucket of this.#buckets) {
+      bucket.splice(0);
+    }
+  }
 }
