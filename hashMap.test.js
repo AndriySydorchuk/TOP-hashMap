@@ -88,6 +88,19 @@ describe("Testing HashMap behaviour", () => {
       expect(hashMap.get("Jon")).toBe("Targaryen");
     });
 
+    test("sets multiple key value pair through chaining", () => {
+      const hashMap = new HashMap();
+      hashMap.set("Tyrion", "Lannister").set("Jon", "Snow");
+      expect(hashMap.get("Tyrion")).toBe("Lannister");
+      expect(hashMap.get("Jon")).toBe("Snow");
+    });
+
+    test("sets a key value pair for anonymous instance", () => {
+      expect(new HashMap().set("Tyrion", "Lannister").get("Tyrion")).toBe(
+        "Lannister",
+      );
+    });
+
     test("throws type error for non-string key", () => {
       const hashMap = new HashMap();
       expect(() => hashMap.set(-5, "negative key value")).toThrow(TypeError);

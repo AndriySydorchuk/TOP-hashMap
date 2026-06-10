@@ -9,6 +9,20 @@ export class HashMap {
     this.#buckets = Array.from({ length: this.#capacity }, () => []);
   }
 
+  #getBucket(index) {
+    return this.#buckets[index];
+  }
+
+  #getEntry(key, bucket) {
+    for (const entry of bucket) {
+      if (entry.key === key) {
+        return entry;
+      }
+    }
+
+    return null;
+  }
+
   hash(key) {
     if (typeof key !== "string")
       throw new TypeError("Invalid key type. Use string instead");
@@ -25,12 +39,11 @@ export class HashMap {
 
   get(key) {
     const hashCode = this.hash(key);
-    const bucket = this.#buckets[hashCode];
+    const bucket = this.#getBucket(hashCode);
+    const entry = this.#getEntry(key, bucket);
 
-    for (const entry of bucket) {
-      if (entry.key === key) {
-        return entry.value;
-      }
+    if (entry) {
+      return entry.value;
     }
 
     return null;
@@ -38,14 +51,15 @@ export class HashMap {
 
   set(key, value) {
     const hashCode = this.hash(key);
+    const bucket = this.#getBucket(hashCode);
+    const entry = this.#getEntry(key, bucket);
 
-    const bucket = this.#buckets[hashCode];
-    for (const entry of bucket) {
-      if (entry.key === key) {
-        entry.value = value;
-      }
+    if (entry) {
+      entry.value = value;
+    } else {
+      bucket.push({ key, value });
     }
 
-    bucket.push({ key, value });
+    return this;
   }
 }
