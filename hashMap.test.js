@@ -88,6 +88,17 @@ describe("Testing HashMap behaviour", () => {
       expect(hashMap.get("Jon")).toBe("Targaryen");
     });
 
+    test("set updates existing key without increasing length", () => {
+      const hashMap = new HashMap();
+
+      hashMap.set("Jon", "Snow");
+      hashMap.set("Jon", "Targaryen");
+
+      expect(hashMap.get("Jon")).toBe("Targaryen");
+      expect(hashMap.length()).toBe(1);
+      expect(hashMap.keys()).toEqual(["Jon"]);
+    });
+
     test("sets multiple key value pair through chaining", () => {
       const hashMap = new HashMap();
       hashMap.set("Tyrion", "Lannister").set("Jon", "Snow");

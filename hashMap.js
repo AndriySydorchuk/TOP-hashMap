@@ -82,7 +82,10 @@ export class HashMap {
     const bucket = this.#getBucket(key);
     const entry = this.#getEntry(key, bucket);
 
-    if (entry) entry.value = value;
+    if (entry) {
+      entry.value = value;
+      return this;
+    }
 
     bucket.push({ key, value });
 
