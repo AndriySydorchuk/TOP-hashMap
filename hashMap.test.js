@@ -154,4 +154,78 @@ describe("Testing HashMap behaviour", () => {
       expect(new HashMap().set("Jon", "Snow").has("Tyrion")).toBe(false);
     });
   });
+
+  describe("remove(key) method", () => {
+    test("removes 'Jon' entry from the hash map and returns true", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+
+      expect(hashMap.remove("Jon")).toBe(true);
+      expect(hashMap.has("Jon")).toBe(false);
+    });
+
+    test("removes 'Arya' entry from the hash map and returns true", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+
+      expect(hashMap.remove("Arya")).toBe(true);
+      expect(hashMap.has("Arya")).toBe(false);
+    });
+
+    test("removes 'Tyrion' entry from the hash map and returns true", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+
+      expect(hashMap.remove("Tyrion")).toBe(true);
+      expect(hashMap.has("Tyrion")).toBe(false);
+    });
+
+    test("removes 'Jon' entry from an anonymous hash map and returns true", () => {
+      expect(
+        new HashMap()
+          .set("Jon", "Snow")
+          .set("Tyrion", "Lannister")
+          .set("Arya", "Stark")
+          .remove("Jon"),
+      ).toBe(true);
+    });
+
+    test("returns false for a 'Sansa' key that isn't in the hash map", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+
+      expect(hashMap.remove("Sansa")).toBe(false);
+    });
+
+    test("returns false for a 'Cersei' key that isn't in the hash map", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+
+      expect(hashMap.remove("Cersei")).toBe(false);
+    });
+
+    test("returns false for a 'Jon' for an empty hash map", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.remove("Jon")).toBe(false);
+    });
+
+    test("returns false for a 'Jon' for an anonymous hash map", () => {
+      expect(new HashMap().remove("Jon")).toBe(false);
+    });
+  });
 });

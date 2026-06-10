@@ -74,4 +74,25 @@ export class HashMap {
 
     return false;
   }
+
+  remove(key) {
+    const hashCode = this.hash(key);
+    const bucket = this.#getBucket(hashCode);
+    const entry = this.#getEntry(key, bucket);
+
+    if (!entry) {
+      return false;
+    }
+
+    let index;
+    for (index = 0; index < bucket.length; index++) {
+      if (bucket[index].key === key) {
+        break;
+      }
+    }
+
+    bucket.splice(index, 1);
+
+    return true;
+  }
 }
