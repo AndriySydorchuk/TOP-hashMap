@@ -95,4 +95,16 @@ export class HashMap {
 
     return true;
   }
+
+  length() {
+    let length = 0;
+
+    for (const bucket of this.#buckets) {
+      for (const entry of bucket) {
+        length++;
+      }
+    }
+
+    return length;
+  }
 }

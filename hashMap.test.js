@@ -228,4 +228,54 @@ describe("Testing HashMap behaviour", () => {
       expect(new HashMap().remove("Jon")).toBe(false);
     });
   });
+
+  describe("length method", () => {
+    test("returns 3 for the hash map containing 3 entries", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark");
+
+      expect(hashMap.length()).toBe(3);
+    });
+
+    test("returns 5 for the hash map containing 5 entries", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark")
+        .set("Jorah", "Mormont")
+        .set("Samwell", "Tarly");
+
+      expect(hashMap.length()).toBe(5);
+    });
+
+    test("returns 4 for the hash map containing 4 entries, when one bucket contains two entries", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Rama", "RamaValue")
+        .set("Sita", "SitaValue");
+
+      expect(hashMap.length()).toBe(4);
+    });
+
+    test("returns 2 for an anonymous hash map containing 2 entries", () => {
+      expect(
+        new HashMap().set("Jon", "Snow").set("Tyrion", "Lannister").length(),
+      ).toBe(2);
+    });
+
+    test("returns 0 for an empty hash map", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.length()).toBe(0);
+    });
+
+    test("returns 0 for an empty anonymous hash map", () => {
+      expect(new HashMap().length()).toBe(0);
+    });
+  });
 });
