@@ -132,11 +132,8 @@ export class HashMap {
   }
 
   clear() {
-    for (const bucket of this.#buckets) {
-      bucket.splice(0);
-    }
-
     this.#capacity = 16;
+    this.#buckets = Array.from({ length: this.#capacity }, () => []);
   }
 
   keys() {
