@@ -125,4 +125,16 @@ export class HashMap {
 
     return keys;
   }
+
+  values() {
+    const values = [];
+
+    for (const bucket of this.#buckets) {
+      for (const entry of bucket) {
+        values.push(entry.value);
+      }
+    }
+
+    return values;
+  }
 }

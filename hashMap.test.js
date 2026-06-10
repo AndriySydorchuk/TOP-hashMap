@@ -365,4 +365,55 @@ describe("Testing HashMap behaviour", () => {
       expect(hashMap.keys().length).toBe(0);
     });
   });
+
+  describe("values method", () => {
+    test("returns an array containing all the values inside the hash map", () => {
+      const hashMap = new HashMap();
+      hashMap
+        .set("Jon", "Snow")
+        .set("Tyrion", "Lannister")
+        .set("Arya", "Stark")
+        .set("Jorah", "Mormont")
+        .set("Samwell", "Tarly");
+
+      expect(Array.isArray(hashMap.values())).toBe(true);
+      expect(hashMap.keys().length).toBe(5);
+      expect(hashMap.values().find((val) => val === "Snow")).toBe("Snow");
+    });
+
+    test("returns an array containing all the values inside the anonymous hash map", () => {
+      expect(
+        Array.isArray(
+          new HashMap()
+            .set("Jon", "Snow")
+            .set("Tyrion", "Lannister")
+            .set("Arya", "Stark")
+            .set("Jorah", "Mormont")
+            .values(),
+        ),
+      ).toBe(true);
+      expect(
+        new HashMap()
+          .set("Jon", "Snow")
+          .set("Tyrion", "Lannister")
+          .set("Arya", "Stark")
+          .set("Jorah", "Mormont")
+          .values().length,
+      ).toBe(4);
+      expect(
+        new HashMap()
+          .set("Jon", "Snow")
+          .set("Tyrion", "Lannister")
+          .set("Arya", "Stark")
+          .set("Jorah", "Mormont")
+          .values()
+          .find((val) => val === "Stark"),
+      ).toBe("Stark");
+    });
+
+    test("returns an empty array for an empty hash map", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.values().length).toBe(0);
+    });
+  });
 });
