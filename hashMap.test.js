@@ -101,6 +101,14 @@ describe("Testing HashMap behaviour", () => {
       );
     });
 
+    test("sets a key value pairs with the same hash code", () => {
+      const hashMap = new HashMap();
+      hashMap.set("Rama", "RamaValue").set("Sita", "SitaValue");
+
+      expect(hashMap.get("Rama")).toBe("RamaValue");
+      expect(hashMap.get("Sita")).toBe("SitaValue");
+    });
+
     test("throws type error for non-string key", () => {
       const hashMap = new HashMap();
       expect(() => hashMap.set(-5, "negative key value")).toThrow(TypeError);
