@@ -25,11 +25,14 @@ export class HashMap {
   }
 
   get(key) {
-    const hashCode = this.hash(key);
+    const normalizedKey =
+      typeof key === "object" ? JSON.stringify(key) : String(key);
+
+    const hashCode = this.hash(normalizedKey);
     const bucket = this.#buckets[hashCode];
 
     for (const entry of bucket) {
-      if (entry.key === key) {
+      if (entry.key === normalizedKey) {
         return entry.value;
       }
     }

@@ -53,5 +53,11 @@ describe("Testing HashMap behaviour", () => {
       const hashMap = new HashMap();
       expect(hashMap.get("Arya")).toBe(null);
     });
+
+    test("returns value for non-string key", () => {
+      const hashMap = new HashMap();
+      expect(hashMap.get(-5)).toBe("negative key value");
+      expect(hashMap.get([1, 2, 3])).toBe("array key value");
+    });
   });
 });
